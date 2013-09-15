@@ -847,4 +847,7 @@ omap
 am33x_after
 saucy
 
+echo "NINJA"
+${git} "${DIR}/patches/ninja/0001-rtl8192cu-combined.patch"
+
 echo "patch.sh ran successful"
