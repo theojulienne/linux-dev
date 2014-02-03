@@ -22,7 +22,7 @@
 
 # Split out, so build_kernel.sh and build_deb.sh can share..
 
-git="git am"
+git="git am --ignore-whitespace"
 
 if [ -f ${DIR}/system.sh ] ; then
 	. ${DIR}/system.sh
@@ -849,5 +849,7 @@ saucy
 
 echo "NINJA"
 ${git} "${DIR}/patches/ninja/0001-rtl8192cu-combined.patch"
+${git} "${DIR}/patches/ninja/0002-ieee802154-serial.patch"
+${git} "${DIR}/patches/ninja/0003-Import-new-rtl8192cu-driver-from-realtek.patch"
 
 echo "patch.sh ran successful"

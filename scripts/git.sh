@@ -96,12 +96,12 @@ git_kernel () {
 	echo "scripts/git: Updating LINUX_GIT tree via: git fetch"
 	git fetch || true
 	cd -
-
+	echo 'cloning'
 	if [ ! -f "${DIR}/KERNEL/.git/config" ] ; then
 		rm -rf ${DIR}/KERNEL/ || true
 		git clone --shared ${LINUX_GIT} ${DIR}/KERNEL
 	fi
-
+	echo 'fixing'
 	#Automaticly, just recover the git repo from a git crash
 	if [ -f "${DIR}/KERNEL/.git/index.lock" ] ; then
 		rm -rf ${DIR}/KERNEL/ || true
@@ -109,18 +109,21 @@ git_kernel () {
 	fi
 
 	cd ${DIR}/KERNEL/
-
+	echo 'bisect'
 	if [ "${RUN_BISECT}" ] ; then
 		git bisect reset || true
 	fi
-
+	echo 'am'
 	git am --abort || echo "git tree is clean..."
+	echo 'add'
 	git add --all
-	git commit --allow-empty -a -m 'empty cleanup commit'
-
+	echo 'commit'
+	#git commit --allow-empty -a -m 'empty cleanup commit'
+	echo 'resetting'
 	git reset --hard HEAD
+	echo 'checkout'
 	git checkout master -f
-
+	echo 'pull'
 	git pull ${GIT_OPTS} || true
 
 	git tag | grep v${KERNEL_TAG} | grep -v rc >/dev/null 2>&1 || git_kernel_torvalds
